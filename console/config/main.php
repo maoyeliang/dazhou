@@ -30,6 +30,9 @@ return [
                 ],
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // yii2admin使用数据库管理配置文件
+        ]
     ],
     'params' => $params,
 ];
