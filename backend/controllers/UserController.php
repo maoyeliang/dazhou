@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class UserController extends Controller
 {
+
     /**
      * @inheritdoc
      */
@@ -65,7 +66,8 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
+        $model->setPassword($model->password1);
+        $model->generateAuthKey();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -87,9 +89,10 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);

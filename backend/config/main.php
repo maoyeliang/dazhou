@@ -25,6 +25,11 @@ return [
             'identityClass' => 'backend\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'on beforeLogin' => function($event) {
+                $user = $event->identity; //这里的就是User Model的实例
+                $user->last_time = time();
+                $user->save();
+            },
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend

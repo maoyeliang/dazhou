@@ -14,6 +14,8 @@ use yii\db\Expression;
  * @property int $id
  * @property string $username 用户名
  * @property string $auth_key 登录cokie
+ * @property string $password1 密码
+ * @property string $password2 确认密码
  * @property string $password_hash 密码MD5加密
  * @property string $password_reset_token 重置密码令牌
  * @property string $email 邮箱
@@ -28,6 +30,10 @@ use yii\db\Expression;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+
+    //密码验证
+    public $password1;
+    public $password2;
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
@@ -51,8 +57,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [
           [
               'class' => TimestampBehavior::className(),
-              'createdAtAttribute' => 'create_time',
-              'updatedAtAttribute' => 'update_time',
+              'createdAtAttribute' => 'created_time',
+              'updatedAtAttribute' => 'updated_time',
               'value' => new Expression('NOW()'),
           ],
         ];
@@ -64,17 +70,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            [['username', 'email', 'nickname', 'phone',], 'required'],
+          //  ['status', 'default', 'value' => self::STATUS_ACTIVE],
+         //   ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['username','password1','password2', 'email', 'nickname', 'phone',], 'required'],
             [['venue_id', 'phone', 'status', 'last_time', 'created_time', 'updated_time'], 'integer'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'nickname', 'headphoto'], 'string', 'max' => 255],
+            ['password2', 'compare', 'compareAttribute'=>'password1'],
         ];
     }
     public function attributeLabels(){
         return [
             'id' => 'ID',
+            'password1' => '密码',
+            'password2' => '确认密码',
            'username' => '用户名',
            'auth_key' => '登录cokie',
            'password_hash' => '密码MD5加密',
@@ -84,7 +93,7 @@ class User extends ActiveRecord implements IdentityInterface
            'venue_id' => '场馆',
            'headphoto' => '头像',
            'phone' => '手机号',
-           'status' => '状态：0未激活，1已激活，2已锁定，3已停用',
+           'status' => '状态',
            'last_time' => '最后登录时间',
            'created_time' => '创建时间',
            'updated_time' => '修改时间',
