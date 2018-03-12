@@ -188,6 +188,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
+    /**
+     * 获得当前用户场馆信息
+     *
+     */
+    public function getVid()
+    {
+        return '100000';
+    }
 
     /**
      * {@inheritdoc}

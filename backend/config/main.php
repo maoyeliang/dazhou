@@ -68,6 +68,7 @@ return [
             'debug/*',
             'user/*',
             'venue/*',
+            'fields/*',
         ]
     ],
     'params' => $params,

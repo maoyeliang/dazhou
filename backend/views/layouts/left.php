@@ -31,7 +31,15 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => '菜单', 'options' => ['class' => 'header']],
-                    ['label' => '我的场馆', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    [
+                        'label' => '我的场馆',
+                        'icon' => 'file-code-o',
+                        'url' => '#',
+                        'items' => [
+                        ['label' => '场地管理', 'icon' => 'file-code-o', 'url' => ['/fields'],],
+                    ]
+
+                    ],
                     ['label' => '订单中心', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => '财务中心', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => '场馆管理（admin）', 'icon' => 'file-code-o', 'url' => ['/venue']],

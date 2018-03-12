@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--    --><?php //ActiveForm::end(); ?>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             [
