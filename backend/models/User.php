@@ -1,6 +1,7 @@
 <?php
 namespace backend\models;
 
+use common\models\Venue;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -22,7 +23,7 @@ use yii\db\Expression;
  * @property string $nickname 姓名
  * @property int $venue_id 场馆
  * @property string $headphoto 头像
- * @property int $phone 手机号
+ * @property string $phone 手机号
  * @property int $status 状态：0未激活，1已激活，2已锁定，3已停用
  * @property int $last_time 最后登录时间
  * @property int $created_time 创建时间
@@ -48,12 +49,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * {@inheritdoc}
+     * 自动设置时间戳
      */
     public function behaviors()
     {
-//        return [
-//            TimestampBehavior::className(),
-//        ];
         return [
           [
               'class' => TimestampBehavior::className(),
@@ -72,13 +71,22 @@ class User extends ActiveRecord implements IdentityInterface
         return [
           //  ['status', 'default', 'value' => self::STATUS_ACTIVE],
          //   ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            [['username','password1','password2', 'email', 'nickname', 'phone',], 'required'],
+            [['username','password1','password2', 'email', 'nickname', 'phone',], 'required', ],
             [['venue_id', 'phone', 'status', 'last_time', 'created_time', 'updated_time'], 'integer'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'nickname', 'headphoto'], 'string', 'max' => 255],
             ['password2', 'compare', 'compareAttribute'=>'password1'],
         ];
     }
+
+//    //场景设置
+//    public function scenarios()
+//    {
+//        return [
+//            'create' => ['username','password1','password2', 'email', 'nickname', 'phone'],
+//            'update' => ['username', 'email', 'nickname', 'phone'],
+//        ];
+//    }
     public function attributeLabels(){
         return [
             'id' => 'ID',
@@ -99,12 +107,23 @@ class User extends ActiveRecord implements IdentityInterface
            'updated_time' => '修改时间',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery 返回门店信息
+     */
+    public function getVenue()
+    {
+        return $this->hasOne(Venue::className(), ['id' => 'venue_id']);
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+       // return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id]);
     }
 
     /**
@@ -123,7 +142,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+      //  return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username]);
     }
 
     /**
@@ -140,7 +160,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+          //  'status' => self::STATUS_ACTIVE,
         ]);
     }
 

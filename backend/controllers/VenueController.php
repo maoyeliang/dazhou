@@ -4,18 +4,19 @@ namespace backend\controllers;
 
 use common\components\Upload;
 use Yii;
-use backend\models\User;
-use backend\models\UserSearch;
+use common\models\Venue;
+use common\models\VenueSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
-/**
- * UserController implements the CRUD actions for User model.
- */
-class UserController extends Controller
-{
 
+use yii\helpers\Json;
+
+/**
+ * VenueController implements the CRUD actions for Venue model.
+ */
+class VenueController extends Controller
+{
     /**
      * @inheritdoc
      */
@@ -32,12 +33,12 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all Venue models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new VenueSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +48,7 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model.
+     * Displays a single Venue model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,28 +61,29 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new User model.
+     * Creates a new Venue model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        Yii::$app->params['webuploader']['uploadUrl'] = 'user/upload';
-        $model = new User();
+        $model = new Venue();
 
-        $model->setPassword($model->password1);
-        $model->generateAuthKey();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            //多图入库之前，先转换成字符串
+            is_array($model->imglist) && $model->imglist && $model->imglist = implode(',', $model->imglist);
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Updates an existing User model.
+     * Updates an existing Venue model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -89,23 +91,25 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        Yii::$app->params['webuploader']['uploadUrl'] = 'user/upload';
+
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->password1);
-            is_array($model->headphoto) && $model->headphoto &&  $model->headphoto = implode(',', $model->headphoto);
+            //多图入库之前，先转换成字符串
+            is_array($model->imglist) && $model->imglist && $model->imglist = implode(',', $model->imglist);
             if($model->save()){
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing Venue model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -119,26 +123,26 @@ class UserController extends Controller
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the Venue model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return Venue the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = Venue::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
-    public function actionUpload()
-    {
-         Yii::$app->params['imageUploadRelativePath'] .=  'user/';
-         Yii::$app->params['imageUploadSuccessPath']  = 'user/';
+    /**
+     * logo图片上传处理方法
+     *
+     * */
+    public function actionUploadlogo(){
+        $this->initImagePath();
         try {
             $model = new Upload();
             $info = $model->upImage();
@@ -158,5 +162,57 @@ class UserController extends Controller
                 'msg' => $e->getMessage()
             ]));
         }
+    }
+    /**
+     * logo图片上传处理方法
+     *
+     * */
+    public function actionUploadhead(){
+        //控制器/类型/用户/1.jpg
+        $this->initImagePath();
+        try {
+            $model = new Upload();
+            $info = $model->upImage();
+            $info && is_array($info) ?
+                exit(Json::htmlEncode($info)) :
+                exit(Json::htmlEncode([
+                    'code' => 1,
+                    'msg' => 'error'
+                ]));
+        } catch (\Exception $e) {
+            exit(Json::htmlEncode([
+                'code' => 1,
+                'msg' => $e->getMessage()
+            ]));
+        }
+    }
+    /**
+     * logo图片上传处理方法
+     *
+     * */
+    public function actionUploadlist(){
+        $this->initImagePath();
+        try {
+            $model = new Upload();
+            $info = $model->upImage();
+            $info && is_array($info) ?
+                exit(Json::htmlEncode($info)) :
+                exit(Json::htmlEncode([
+                    'code' => 1,
+                    'msg' => 'error'
+                ]));
+
+
+        } catch (\Exception $e) {
+            exit(Json::htmlEncode([
+                'code' => 1,
+                'msg' => $e->getMessage()
+            ]));
+        }
+    }
+    //初始化图片处理
+    private function initImagePath(){
+        Yii::$app->params['imageUploadRelativePath'] .= Yii::$app->controller->id.'/'.Yii::$app->controller->action->id.'/'. Yii::$app->user->id.'/';
+        Yii::$app->params['imageUploadSuccessPath']  = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id.'/'. Yii::$app->user->id.'/';
     }
 }

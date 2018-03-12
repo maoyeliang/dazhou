@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
-
 <div class="user-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -25,23 +24,26 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('新增用户', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
-    <?= $form->field($searchModel, 'username')
-        ->label(false)
-        ->textInput(['placeholder' => '输入用户名进行搜索']) ?>
-    <?= Html::submitButton('搜索', ['class' => 'btn btn-primary']) ?>
-    <?= Html::resetButton('高级搜索', ['class' => 'btn btn-default']) ?>
-    <?php ActiveForm::end(); ?>
+<!---->
+<!--    --><?php //$form = ActiveForm::begin([
+//        'action' => ['index'],
+//        'method' => 'get',
+//    ]); ?>
+<!--    --><?//= $form->field($searchModel, 'username')
+//        ->label(false)
+//        ->textInput(['placeholder' => '输入用户名进行搜索']) ?>
+<!--    --><?//= Html::submitButton('搜索', ['class' => 'btn btn-primary']) ?>
+<!--    --><?//= Html::resetButton('高级搜索', ['class' => 'btn btn-default']) ?>
+<!--    --><?php //ActiveForm::end(); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-     //   'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
-       //     ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+            ],
+            //     ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'username',
@@ -51,14 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'nickname',
             'phone',
             'email:email',
-            'venue_id',
+            [
+                    'attribute' => 'venue_id',
+                    'value' => 'venue.name',
+            ],
             'headphoto',
             'status',
             'last_time:datetime',
             'updated_time:datetime',
             'created_time:datetime',
-            ['class' => 'yii\grid\ActionColumn'],
-
         ],
+
     ]); ?>
 </div>

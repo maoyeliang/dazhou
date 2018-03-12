@@ -67,6 +67,7 @@ return [
             'gii/*',
             'debug/*',
             'user/*',
+            'venue/*',
         ]
     ],
     'params' => $params,

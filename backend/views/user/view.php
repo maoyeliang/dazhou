@@ -37,6 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'nickname',
             'venue_id',
             'headphoto',
+              ['attribute'=>'headphoto',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::img(Yii::getAlias('@images/'.$model->headphoto));
+                }],
             'phone',
             'status',
             'last_time:datetime',
