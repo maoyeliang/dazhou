@@ -12,7 +12,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'admin' => [//yii2-admin的后台
+        'admins' => [//yii2-admin的后台
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
         ]
@@ -22,7 +22,7 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'backend\models\User',
+            'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
             'on beforeLogin' => function($event) {
@@ -66,7 +66,7 @@ return [
             'admin/*',//允许所有人访问admin节点及其子节点
             'gii/*',
             'debug/*',
-            'user/*',
+            'admins/*',
             'venue/*',
             'fields/*',
         ]

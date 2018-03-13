@@ -4,7 +4,7 @@ use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\User */
+/* @var $model backend\models\Admin */
 
 $this->title = 'Update User: {nameAttribute}';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];

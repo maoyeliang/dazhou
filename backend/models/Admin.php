@@ -4,12 +4,10 @@ namespace backend\models;
 use common\models\Venue;
 use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use yii\db\Expression;
 
 /**
+ * 实现User组件中的身份识别类 参见 yii\web\user
  * User model
  * This is the model class for table "{{%user}}".
  * @property int $id
@@ -29,84 +27,17 @@ use yii\db\Expression;
  * @property int $created_time 创建时间
  * @property int $updated_time 修改时间
  */
-class User extends ActiveRecord implements IdentityInterface
+class Admin extends \common\models\Admin implements IdentityInterface
 {
 
     //密码验证
     public $password1;
     public $password2;
+    //状态验证
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     * 自动设置时间戳
-     */
-    public function behaviors()
-    {
-        return [
-          [
-              'class' => TimestampBehavior::className(),
-              'createdAtAttribute' => 'created_time',
-              'updatedAtAttribute' => 'updated_time',
-              'value' => new Expression('NOW()'),
-          ],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-          //  ['status', 'default', 'value' => self::STATUS_ACTIVE],
-         //   ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            [['username','password1','password2', 'email', 'nickname', 'phone',], 'required', ],
-            [['venue_id', 'phone', 'status', 'last_time', 'created_time', 'updated_time'], 'integer'],
-            [['username', 'auth_key'], 'string', 'max' => 32],
-            [['password_hash', 'password_reset_token', 'email', 'nickname', 'headphoto'], 'string', 'max' => 255],
-            ['password2', 'compare', 'compareAttribute'=>'password1'],
-        ];
-    }
-
-//    //场景设置
-//    public function scenarios()
-//    {
-//        return [
-//            'create' => ['username','password1','password2', 'email', 'nickname', 'phone'],
-//            'update' => ['username', 'email', 'nickname', 'phone'],
-//        ];
-//    }
-    public function attributeLabels(){
-        return [
-            'id' => 'ID',
-            'password1' => '密码',
-            'password2' => '确认密码',
-           'username' => '用户名',
-           'auth_key' => '登录cokie',
-           'password_hash' => '密码MD5加密',
-           'password_reset_token' => '重置密码令牌',
-           'email' => '邮箱',
-           'nickname' => '姓名',
-           'venue_id' => '场馆',
-           'headphoto' => '头像',
-           'phone' => '手机号',
-           'status' => '状态',
-           'last_time' => '最后登录时间',
-           'created_time' => '创建时间',
-           'updated_time' => '修改时间',
-        ];
-    }
 
     /**
      * @return \yii\db\ActiveQuery 返回门店信息
@@ -135,7 +66,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * 根据用户名获取账号信息
      *
      * @param string $username
      * @return static|null
@@ -188,14 +119,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
-    /**
-     * 获得当前用户场馆信息
-     *
-     */
-    public function getVid()
-    {
-        return '100000';
-    }
 
     /**
      * {@inheritdoc}
@@ -214,7 +137,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Validates password
+     * 验证密码
      *
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
@@ -225,7 +148,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Generates password hash from password and sets it to the model
+     * 设置加密后的密码
      *
      * @param string $password
      */

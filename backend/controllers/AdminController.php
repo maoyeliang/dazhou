@@ -4,8 +4,8 @@ namespace backend\controllers;
 
 use common\components\Upload;
 use Yii;
-use backend\models\User;
-use backend\models\UserSearch;
+use backend\models\Admin;
+use backend\models\AdminSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use yii\helpers\Json;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class AdminController extends Controller
 {
 
     /**
@@ -37,7 +37,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new AdminSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
@@ -68,7 +68,7 @@ class UserController extends Controller
     public function actionCreate()
     {
         Yii::$app->params['webuploader']['uploadUrl'] = 'user/upload';
-        $model = new User();
+        $model = new Admin();
 
         $model->setPassword($model->password1);
         $model->generateAuthKey();
@@ -123,12 +123,12 @@ class UserController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return Admin the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = Admin::findOne($id)) !== null) {
             return $model;
         }
 

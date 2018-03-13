@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\User */
+/* @var $model backend\models\Admin */
 
 $this->title = '新增用户';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
