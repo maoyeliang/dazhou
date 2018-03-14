@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace common\seatch\models;
 
 use Yii;
 use yii\base\Model;
@@ -18,7 +18,7 @@ class FieldsSearch extends Fields
     public function rules()
     {
         return [
-            [['id', 'venue_id', 'type', 'vip_type', 'material', 'careate_time', 'update_time'], 'integer'],
+            [['id', 'venue_id', 'type', 'vip_type', 'material', 'created_time', 'update_time'], 'integer'],
         ];
     }
 
@@ -64,8 +64,8 @@ class FieldsSearch extends Fields
             'type' => $this->type,
             'vip_type' => $this->vip_type,
             'material' => $this->material,
-            'careate_time' => $this->careate_time,
-            'update_time' => $this->update_time,
+            'careate_time' => $this->created_time,
+            'update_time' => $this->updated_time,
         ]);
 
         return $dataProvider;

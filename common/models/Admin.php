@@ -64,6 +64,8 @@ class Admin extends BaseActiveRecord
             [['venue_id', 'phone', 'status', 'last_time', 'created_time', 'updated_time'], 'integer'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'nickname', 'headphoto'], 'string', 'max' => 255],
+
+            [['created_time', 'updated_time'], 'safe'],
             ['password2', 'compare', 'compareAttribute' => 'password1'],
         ];
     }

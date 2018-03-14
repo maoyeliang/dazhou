@@ -44,9 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 }],
             'phone',
             'status',
-            'last_time:datetime',
-            'created_time:datetime',
-            'updated_time:datetime',
+            'last_time',
+            'created_time',
+            'updated_time',
         ],
     ]) ?>
 

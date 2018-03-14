@@ -25,9 +25,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'material') ?>
 
-    <?php // echo $form->field($model, 'careate_time') ?>
+    <?php // echo $form->field($model, 'created_time') ?>
 
-    <?php // echo $form->field($model, 'update_time') ?>
+    <?php // echo $form->field($model, 'updated_time') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Fields';
+$this->title = '场地';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fields-index">
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Fields', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('新增场地', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -27,8 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'type',
             'vip_type',
             'material',
-            'careate_time:datetime',
-            'update_time:datetime',
+            'created_time',
+            'updated_time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

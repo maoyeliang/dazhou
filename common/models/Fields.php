@@ -15,8 +15,8 @@ use yii\db\Expression;
  * @property int $type 场地类型，0未设置，1羽毛球,2篮球
  * @property int $vip_type 0普通，1vip场
  * @property int $material 场地材质
- * @property int $careate_time 创建时间
- * @property int $update_time 更新时间
+ * @property int $created_time 创建时间
+ * @property int $updated_time 更新时间
  *
  * @property Venue $id0
  */
@@ -37,7 +37,8 @@ class Fields extends \yii\db\ActiveRecord
     {
         return [
             [['venue_id', 'type', 'vip_type'], 'required'],
-            [['venue_id', 'type', 'vip_type', 'material', 'careate_time', 'update_time'], 'integer'],
+            [['venue_id', 'type', 'vip_type', 'material', ], 'integer'],
+            [['created_time', 'updated_time'], 'safe'],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Venue::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
@@ -50,9 +51,9 @@ class Fields extends \yii\db\ActiveRecord
         return [
             [
                 'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'careate_time',
-                'updatedAtAttribute' => 'update_time',
-                'value' => new Expression('NOW()'),
+                'createdAtAttribute' => 'created_time',
+                'updatedAtAttribute' => 'updated_time',
+                'value' => new Expression('now()'),
             ],
         ];
     }
@@ -68,8 +69,8 @@ class Fields extends \yii\db\ActiveRecord
             'type' => '场地类型，0未设置，1羽毛球,2篮球',
             'vip_type' => '0普通，1vip场',
             'material' => '场地材质',
-            'careate_time' => '创建时间',
-            'update_time' => '更新时间',
+            'created_time' => '创建时间',
+            'updated_time' => '更新时间',
         ];
     }
 
@@ -78,6 +79,6 @@ class Fields extends \yii\db\ActiveRecord
      */
     public function getId0()
     {
-        return $this->hasOne(Venue::className(), ['id' => 'id']);
+        return $this->hasOne(Venue::className(), ['id' => 'venue_id']);
     }
 }

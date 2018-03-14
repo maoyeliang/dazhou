@@ -6,7 +6,6 @@ use common\components\Upload;
 use Yii;
 use common\models\Venue;
 use common\models\VenueSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -15,8 +14,19 @@ use yii\helpers\Json;
 /**
  * VenueController implements the CRUD actions for Venue model.
  */
-class VenueController extends Controller
+class VenueController extends BaseController
 {
+
+    /*
+     * ---------------------------------------
+     * 构造方法
+     * ---------------------------------------
+     */
+    public function init(){
+        parent::init();
+    }
+
+
     /**
      * @inheritdoc
      */

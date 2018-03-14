@@ -1,14 +1,11 @@
 <?php
 namespace backend\controllers;
 
-use Yii;
-use common\helpers\ArrayHelper;
 use common\core\Controller;
-use backend\models\Menu;
-use backend\models\Config;
-use yii\helpers\Url;
-use yii\data\Pagination;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
+use yii\helpers\Url;
 
 /*
  * ---------------------------------------
@@ -46,59 +43,26 @@ class BaseController extends Controller
         /* 获取当前登录用户信息 */
         $this->admins = Yii::$app->user->identity->getAttributes();
 
-        /* 解析数据库配置，解析后存放在Yii::$app->params['web']中 */
-        Yii::$app->params['web'] = Config::lists();
+        //TODO 解析数据库配置，解析后存放在Yii::$app->params['web']中
+       // Yii::$app->params['web'] = Config::lists();
 
     }
     
     /*
      * ---------------------------------------
-     * 在执行所有动作之前，先执行这个方法。用于权限验证
+     * TODO 在执行所有动作之前，先执行这个方法。没想好用来干什么
      * @param  int    $id  参数信息 
      * @return bool   true-继续执行/false-终止执行
      * ---------------------------------------
      */
     public function beforeAction($action){
-        /* 后台栏目 */
-        $this->menu = $this->getMenus();
-        //var_dump($this->menu);
-
-        /* 获取当前访问的 controller/action */
-        $controller = $this->id;
-        $action     = $this->action->id;
-        $rule  = strtolower($controller.'/'.$action);
-
-        if ( !$this->checkRule($rule) ){
-            echo 'Access Denied';
-            return false;
-        }
-        return true;
+       return true;
     }
     
-    /*
-     * ---------------------------------------
-     * 权限检测
-     * @param string  $rule    检测的规则
-     * @return boolean
-     * ---------------------------------------
-     */
-    final protected function checkRule($rule){
 
-        /* 超级管理员允许访问任何页面 */
-        if(Yii::$app->params['admin'] == Yii::$app->user->id){
-            return true;
-        }
-
-        /* rbac */
-        if (!\Yii::$app->user->can($rule)) {
-            return false;
-        }
-        return true;
-
-    }
     
     /*
-     * ---------------------------------------
+     * ------*---------------------------------
      * 标记当前位置到cookie供后续跳转调用
      * ---------------------------------------
      */
@@ -121,7 +85,7 @@ class BaseController extends Controller
         return Yii::$app->request->cookies->getValue('__forward__', $default);
     }
 
-    /*
+    /**
      * ---------------------------------------
      * 传统分页列表数据集获取方法
      * @param sting|Model  $model   模型名或模型实例
@@ -145,7 +109,7 @@ class BaseController extends Controller
         return [$data, $pages];
     }
 
-    /*
+    /**
      * ---------------------------------------
      * dataProvider列表数据集获取方法
      * @param sting|Model  $model   模型名或模型实例
@@ -166,7 +130,7 @@ class BaseController extends Controller
         return $dataProvider;
     }
 
-    /*
+    /**
      * ---------------------------------------
      * 修改数据表一条记录的一条值
      * @param string $model 模型名称
@@ -191,7 +155,7 @@ class BaseController extends Controller
         }
     }
 
-    /*
+    /**
      * ---------------------------------------
      * 修改数据表一条记录的一条值
      * @param string $model 模型名称
@@ -223,7 +187,7 @@ class BaseController extends Controller
         }
     }
 
-    /*
+    /**
      * ---------------------------------------
      * 由表主键删除数据表中的多条记录
      * @param string $model 模型名称,供M函数使用的参数
@@ -247,125 +211,8 @@ class BaseController extends Controller
         }
     }
 
-    /*
-     * ---------------------------------------
-     * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
-     * @param  int   $id  参数信息
-     * @return array $menus
-     * ---------------------------------------
-     */
-    final public function getMenus(){
-        $menus = [];
-        /* 获取一级栏目 pid=0 and hide=0 */
-        $menus['main'] = (new \yii\db\Query())->from(Menu::tableName())
-                        ->where(['pid'=>0, 'hide'=>0])
-                        ->orderBy('sort ASC')
-                        ->all();
-        $menus['child'] = []; //设置子节点
 
-        /* 高亮 当前栏目 及其所有父栏目 */
-        $controller = $this->id;
-        $action     = $this->action->id;
-        $rule  = strtolower($controller.'/'.$action);
-        $current = (new \yii\db\Query())->select('id')->from(Menu::tableName())
-                    ->where(['and' ,'pid != 0' ,['like', 'url', $rule]])->one();
-        /* 面包屑导航 */
-        $this->breadcrumbs = $nav = Menu::getParentMenus($current['id']);
-        //var_dump($nav);
 
-        /* 获取一级栏目 */
-        foreach ($menus['main'] as $key => $item) {
-            if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
-                // 弹出错误信息
-            }
-            /* 判断一级栏目权限 */
-            if ( !$this->checkRule($item['url']) ) {
-                unset($menus['main'][$key]);
-                continue;//继续循环
-            }
-            /* 获取当前主菜单的子菜单项，其他子菜单不需要获取 */
-            if ($nav[0]['id'] == $item['id']) {
-                /* 设置当前菜单的一级菜单高亮 */
-                $menus['main'][$key]['class']='active';
-
-                /* 获取 二级菜单 */
-                $second_menu = (new \yii\db\Query())->from(Menu::tableName())
-                    ->where(['pid'=>$item['id'], 'hide'=>0])
-                    ->orderBy('sort ASC')->all();
-
-                /* 判断二级菜单权限 */
-                if ($second_menu && is_array($second_menu)) {
-                    foreach ($second_menu as $skey => $check_menu) {
-                        if ( !$this->checkRule($check_menu['url']) ) {
-                            unset($second_menu[$skey]);
-                            continue;//继续循环
-                        }
-                    }
-                }//var_dump($second_menu);
-
-                /* 生成child树 */
-                $groups = Menu::find()->select(['group'])
-                    ->where(['pid'=>$item['id'], 'hide'=>0])
-                    ->groupBy(['group'])->orderBy('sort ASC')->asArray()->column();
-                //var_dump($groups);exit;
-
-                /* 按照group分组，生成子菜单树 */
-                foreach ($groups as $k => $g) {
-                    $menuList = (new \yii\db\Query())->from(Menu::tableName())
-                                ->where(['pid'=>$item['id'], 'hide'=>0, 'group'=>$g, 'url'=>$second_menu])
-                                ->orderBy('sort ASC')->all();
-                    /* 设置 分组名称、分组图标样式 */
-                    list($g_name, $g_icon) = strpos($g, '|') ? explode('|',$g) :[$g, 'icon-cogs'];
-                    $menus['child'][$k]['name'] = $g_name;
-                    $menus['child'][$k]['icon'] = $g_icon;
-                    /* 分组内容 */
-                    $menus['child'][$k]['_child'] = ArrayHelper::list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
-                }
-
-            }
-
-        }
-        //var_dump($menus['child'][0]);var_dump($menus['main']);exit;
-        return $menus;
-    }
-
-    /*
-     * ---------------------------------------
-     * 根据menu库，返回权限节点，或后台菜单
-     * @param boolean $tree    是否返回多维数组结构(生成菜单时用到),为false返回一维数组(生成权限节点时用到)
-     * @retrun array
-     * ---------------------------------------
-     */
-    public function returnNodes($tree = true){
-        /* 如果已经生成，直接调用 */
-        static $tree_nodes = array();
-        if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
-            return $tree_nodes[$tree];
-        }
-        /* 生成节点 */
-        if((int)$tree){
-            $list = (new \yii\db\Query())
-                    ->select(['id','pid','title','url','hide'])
-                    ->from(Menu::tableName())
-                    ->orderBy(['sort'=>SORT_ASC])->all();
-            $nodes = ArrayHelper::list_to_tree($list,$pk='id',$pid='pid',$child='operator',$root=0);
-            foreach ($nodes as $key => $value) {
-                if(!empty($value['operator'])){
-                    $nodes[$key]['child'] = $value['operator'];
-                    unset($nodes[$key]['operator']);
-                }
-            }
-        }else{
-            $nodes = (new \yii\db\Query())
-                    ->select(['title','url','tip','pid'])
-                    ->from(Menu::tableName())
-                    ->orderBy(['sort'=>SORT_ASC])->all();
-        }
-        /* 节点赋值到静态变量中，以供下次调用 */
-        $tree_nodes[(int)$tree]   = $nodes;
-
-        return $nodes;
-    }
 
     /**
      * ----------------------------------------------

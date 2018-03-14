@@ -36,7 +36,8 @@
                         'icon' => 'file-code-o',
                         'url' => '#',
                         'items' => [
-                        ['label' => '场地管理', 'icon' => 'file-code-o', 'url' => ['/fields'],],
+                            ['label' => '场地管理', 'icon' => 'file-code-o', 'url' => ['/fields']],
+                            ['label' => '场地信息', 'icon' => 'file-code-o', 'url' => ['/fields/info']],
                     ]
 
                     ],

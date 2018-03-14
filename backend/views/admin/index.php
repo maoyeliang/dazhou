@@ -24,17 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('新增用户', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-<!---->
-<!--    --><?php //$form = ActiveForm::begin([
-//        'action' => ['index'],
-//        'method' => 'get',
-//    ]); ?>
-<!--    --><?//= $form->field($searchModel, 'username')
-//        ->label(false)
-//        ->textInput(['placeholder' => '输入用户名进行搜索']) ?>
-<!--    --><?//= Html::submitButton('搜索', ['class' => 'btn btn-primary']) ?>
-<!--    --><?//= Html::resetButton('高级搜索', ['class' => 'btn btn-default']) ?>
-<!--    --><?php //ActiveForm::end(); ?>
 
     <?= GridView::widget([
             'dataProvider' => $dataProvider,
@@ -59,9 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'headphoto',
             'status',
-            'last_time:datetime',
-            'updated_time:datetime',
-            'created_time:datetime',
+            'last_time',
+            'updated_time',
+            'created_time',
         ],
 
     ]); ?>

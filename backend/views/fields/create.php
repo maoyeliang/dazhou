@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 
-$this->title = 'Create Fields';
+$this->title = '新增场地';
 $this->params['breadcrumbs'][] = ['label' => 'Fields', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -5,17 +5,23 @@ namespace backend\controllers;
 use common\components\Upload;
 use Yii;
 use backend\models\Admin;
-use backend\models\AdminSearch;
-use yii\web\Controller;
+use backend\models\search\AdminSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class AdminController extends Controller
+class AdminController extends BaseController
 {
-
+    /*
+       * ---------------------------------------
+       * 构造方法
+       * ---------------------------------------
+       */
+    public function init(){
+        parent::init();
+    }
     /**
      * @inheritdoc
      */
@@ -31,9 +37,10 @@ class AdminController extends Controller
         ];
     }
 
-    /**
-     * Lists all User models.
-     * @return mixed
+    /*
+     * ---------------------------------------
+     * 用户列表
+     * ---------------------------------------
      */
     public function actionIndex()
     {
@@ -48,7 +55,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Displays a single User model.
+     * 展示一条记录详细信息
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,18 +68,19 @@ class AdminController extends Controller
     }
 
     /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * 创建一条新的管理员帐号
      * @return mixed
      */
     public function actionCreate()
     {
-        Yii::$app->params['webuploader']['uploadUrl'] = 'user/upload';
+        //指定图片处理地址
+        Yii::$app->params['webuploader']['uploadUrl'] = 'admin/upload';
         $model = new Admin();
 
         $model->setPassword($model->password1);
         $model->generateAuthKey();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //如果创建成功。浏览器将被重新定向到视图页面
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -82,8 +90,8 @@ class AdminController extends Controller
     }
 
     /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * 更新用户
+     * 如果更新成功，跳转到详细视图页面
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -106,8 +114,8 @@ class AdminController extends Controller
     }
 
     /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * 删除用户
+     * 如果删除成功，跳转到首页
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -135,7 +143,9 @@ class AdminController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
+    /**
+     * 头像上传
+     */
     public function actionUpload()
     {
          Yii::$app->params['imageUploadRelativePath'] .=  'user/';

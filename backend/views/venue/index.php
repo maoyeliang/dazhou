@@ -52,8 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'paykomw',
             'note',
             'description',
-            //'updated_time:datetime',
-            //'created_time:datetime',
+            'updated_time',
+            'created_time',
 
         ],
     ]); ?>

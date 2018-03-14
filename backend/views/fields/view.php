@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'type',
             'vip_type',
             'material',
-            'careate_time:datetime',
-            'update_time:datetime',
+            'created_time',
+            'updated_time',
         ],
     ]) ?>
 
