@@ -29,8 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            [
-                'class' => 'yii\grid\ActionColumn',
+            ['class' => 'yii\grid\ActionColumn',
+                'template'=>'{view} {update} {resetpwd}',
+                'buttons'=>[
+                    'resetpwd'=>function($url,$model,$key)
+                    {
+                        $options=[
+                            'title'=>Yii::t('yii','重置密码'),
+                            'aria-label'=>Yii::t('yii','重置密码'),
+                            'data-pjax'=>'0',
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-lock"></span>',$url,$options);
+                    },
+                ],
             ],
             //     ['class' => 'yii\grid\SerialColumn'],
 

@@ -125,8 +125,10 @@ class FieldsController extends BaseController
 
     public function actionInfo()
     {
+
         if (Yii::$app->request->get('datetime')){
             $datetime = strtotime(Yii::$app->request->get('datetime'));
+
         }else{
             $datetime =  date("Y-m-d",intval(time()));
             $datetime = strtotime($datetime);
@@ -135,9 +137,9 @@ class FieldsController extends BaseController
         $fields = Fields::findAll(['venue_id'=>Yii::$app->user->identity->venue_id]);
 
         foreach ($fields as $field){
-            for($i = 0; $i < 24; $i++){
+            for($i = 6; $i < 23; $i++){
                 $begin_time = $datetime + ($i * 3600);
-                $fieldtime = Fieldstime::findAll(['begin_time' => date("Y-m-d H:i:s",intval($begin_time)),'fields_id'=>$field->id]);
+                $fieldtime = Fieldstime::findOne(['begin_time' => date("Y-m-d H:i:s",intval($begin_time)),'fields_id'=>$field->id]);
                 $fieldstime[$field->id][$i] = $fieldtime;
             }
         }
@@ -151,24 +153,38 @@ class FieldsController extends BaseController
         //需要要设置的时间段
         $fieldsinfo = Yii::$app->request->post('fieldsinfo');
         $dateinfo = Yii::$app->request->post('dateinfo');
-        echo '<pre>';
 
+        $type = Yii::$app->request->post('type');
+        $money = Yii::$app->request->post('money');
+        //date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)))
+        if(!$type){
 
-        foreach ($fieldsinfo as $fieldinfo){
-            $model = new Fieldstime();
-            $model->type = 0;
-            $model->venue_id = Yii::$app->user->identity->venue_id;
-            $model->fields_id = Yii::$app->request->post('fieldid');
-            $model->money = 10;
-            $model->state = 1;
-            $model->begin_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)));
-            $model->end_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)+3600-1));
-            $model->created_time = date("Y-m-d H:i:s",intval(time()));
-            $model->updated_time =  date("Y-m-d H:i:s",intval(time()));
-            $model->save();
+            foreach ($fieldsinfo as $key=>$value){
+                foreach ($value as $fieldinfo){
+                    $fieldstime = Fieldstime::findOne(['fields_id'=>$key,begin_time=>date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)))])->delete();
+                }
+            }
+        }else{
+            foreach ($fieldsinfo as $key=>$value){
+                foreach ($value as $fieldinfo){
+                    $model = new Fieldstime();
+                    $model->type = 0;
+                    $model->venue_id = Yii::$app->user->identity->venue_id;
+                    $model->fields_id = $key;
+                    $model->money = 10;
+                    $model->state = 1;
+                    $model->begin_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)));
+                    $model->end_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)+3600-1));
+                    $model->created_time = date("Y-m-d H:i:s",intval(time()));
+                    $model->updated_time =  date("Y-m-d H:i:s",intval(time()));
+                    $model->save();
+                }
+
+            }
         }
 
-        return $this->redirect(['info']);
+
+        return $this->redirect(['info','datetime'=>date("Y-m-d",intval($dateinfo))]);
 
     }
 

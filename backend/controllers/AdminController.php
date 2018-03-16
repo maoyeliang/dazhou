@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\RestpwdForm;
 use common\components\Upload;
 use Yii;
 use backend\models\Admin;
@@ -125,6 +126,31 @@ class AdminController extends BaseController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * 重置密码
+     * 如果重置密码成功，跳转到首页
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionResetpwd($id){
+        $model = new RestpwdForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if($model->resetPassword($id))
+            {
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('resetpwd', [
+            'model' => $model,
+        ]);
+
+
     }
 
     /**

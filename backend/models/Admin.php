@@ -30,9 +30,6 @@ use yii\web\IdentityInterface;
 class Admin extends \common\models\Admin implements IdentityInterface
 {
 
-    //密码验证
-    public $password1;
-    public $password2;
     //状态验证
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
