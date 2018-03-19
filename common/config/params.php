@@ -14,10 +14,10 @@ return [
         /**
          * 账号基本信息，请从微信公众平台/开放平台获取
          */
-        'app_id'  => 'your-app-id',         // AppID
-        'secret'  => 'your-app-secret',     // AppSecret
+        'app_id'  => 'gh_c389c2b9246a',         // AppID
+        'secret'  => '264e8a59b754217d94b11e71c5135a30',     // AppSecret
         'token'   => 'your-token',          // Token
-        'aes_key' => '',                    // EncodingAESKey，安全模式与兼容模式下请一定要填写！！！
+        'aes_key' => 'hYnDShbKMtzLIhPI5uv1inH1MKQFAADqT7VH6y5v562',                    // EncodingAESKey，安全模式与兼容模式下请一定要填写！！！
 
         /**
          * 日志配置
@@ -30,7 +30,8 @@ return [
         'log' => [
             'level'      => 'debug',
             'permission' => 0777,
-            'file'       => '@frontend/runtime/tmp/easywechat.log',
+           // 'file'       =>  dirname(dirname(__DIR__)).'/api/runtime/tmp/easywechat.log',
+            'file'       =>  '../runtime/tmp/easywechat.log',
         ],
 
         /**

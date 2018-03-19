@@ -74,10 +74,8 @@ class AdminController extends BaseController
      */
     public function actionCreate()
     {
-        //指定图片处理地址
-        Yii::$app->params['webuploader']['uploadUrl'] = 'admin/upload';
-        $model = new Admin();
 
+        $model = new Admin();
         $model->setPassword($model->password1);
         $model->generateAuthKey();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -99,7 +97,7 @@ class AdminController extends BaseController
      */
     public function actionUpdate($id)
     {
-        Yii::$app->params['webuploader']['uploadUrl'] = 'user/upload';
+        Yii::$app->params['webuploader']['uploadUrl'] = 'admin/upload';
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
             $model->setPassword($model->password1);
@@ -174,8 +172,8 @@ class AdminController extends BaseController
      */
     public function actionUpload()
     {
-         Yii::$app->params['imageUploadRelativePath'] .=  'user/';
-         Yii::$app->params['imageUploadSuccessPath']  = 'user/';
+         Yii::$app->params['imageUploadRelativePath'] .=  'admin/';
+         Yii::$app->params['imageUploadSuccessPath']  = 'admin/';
         try {
             $model = new Upload();
             $info = $model->upImage();

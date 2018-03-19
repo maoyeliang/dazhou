@@ -152,35 +152,52 @@ class FieldsController extends BaseController
     public function actionEdit(){
         //需要要设置的时间段
         $fieldsinfo = Yii::$app->request->post('fieldsinfo');
+        //日期
         $dateinfo = Yii::$app->request->post('dateinfo');
-
+        //类型
         $type = Yii::$app->request->post('type');
+        //价格
         $money = Yii::$app->request->post('money');
         //date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)))
-        if(!$type){
+        //0未设置，1可预约，2待支付，3已经预约，4禁止预约，5其他
+        switch ($type){
+            case 0:
+                foreach ($fieldsinfo as $key=>$value){
+                    foreach ($value as $fieldinfo){
+                        Fieldstime::findOne(['fields_id'=>$key,begin_time=>date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)))])->delete();
+                    }
+                };
+                break;
+            case 1:
+                foreach ($fieldsinfo as $key=>$value){
+                    foreach ($value as $fieldinfo){
+                        $model = new Fieldstime();
+                        $model->type = 0;
+                        $model->venue_id = Yii::$app->user->identity->venue_id;
+                        $model->fields_id = $key;
+                        $model->money = $money;
+                        $model->state = 1;
+                        $model->begin_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)));
+                        $model->end_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)+3600-1));
+                        $model->created_time = date("Y-m-d H:i:s",intval(time()));
+                        $model->updated_time =  date("Y-m-d H:i:s",intval(time()));
+                        $model->save();
+                    }
 
-            foreach ($fieldsinfo as $key=>$value){
-                foreach ($value as $fieldinfo){
-                    $fieldstime = Fieldstime::findOne(['fields_id'=>$key,begin_time=>date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)))])->delete();
-                }
-            }
-        }else{
-            foreach ($fieldsinfo as $key=>$value){
-                foreach ($value as $fieldinfo){
-                    $model = new Fieldstime();
-                    $model->type = 0;
-                    $model->venue_id = Yii::$app->user->identity->venue_id;
-                    $model->fields_id = $key;
-                    $model->money = 10;
-                    $model->state = 1;
-                    $model->begin_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)));
-                    $model->end_time = date("Y-m-d H:i:s",intval($dateinfo + ($fieldinfo * 3600)+3600-1));
-                    $model->created_time = date("Y-m-d H:i:s",intval(time()));
-                    $model->updated_time =  date("Y-m-d H:i:s",intval(time()));
-                    $model->save();
-                }
-
-            }
+                };
+                break;
+            case 2:
+                return '可预约';
+                break;
+            case 3:
+                return '已预约';
+                break;
+            case 4:
+                return '禁止预约';
+                break;
+            case 5:
+                return '其他';
+                break;
         }
 
 

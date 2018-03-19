@@ -37,7 +37,11 @@ $this->params['breadcrumbs'][] = 'Update';
             ['prompt' =>'请选择门店']
         ); ?>
 
-        <?= $form->field($model, 'headphoto')->widget('manks\FileInput', []); ?>
+        <?= $form->field($model, 'headphoto')->widget('manks\FileInput', [
+            'clientOptions' => [
+                'server' => 'venue/uploadlogo',
+            ],
+        ]); ?>
 
         <?= $form->field($model, 'phone')->textInput() ?>
 
