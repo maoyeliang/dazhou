@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Venue;
+use common\models\Stadiums;
 
 /**
- * VenueSearch represents the model behind the search form of `backend\models\Venue`.
+ * StadiumsSearch represents the model behind the search form of `backend\models\Stadiums`.
  */
-class VenueSearch extends Venue
+class StadiumsSearch extends Stadiums
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class VenueSearch extends Venue
      */
     public function search($params)
     {
-        $query = Venue::find();
+        $query = Stadiums::find();
 
         // add conditions that should always apply here
 

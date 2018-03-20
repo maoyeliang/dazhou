@@ -1,7 +1,7 @@
 <?php
 namespace backend\models;
 
-use common\models\Venue;
+use common\models\Stadiums;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;
@@ -19,7 +19,7 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token 重置密码令牌
  * @property string $email 邮箱
  * @property string $nickname 姓名
- * @property int $venue_id 场馆
+ * @property int $stadiums_id 场馆
  * @property string $headphoto 头像
  * @property string $phone 手机号
  * @property int $status 状态：0未激活，1已激活，2已锁定，3已停用
@@ -39,9 +39,9 @@ class Admin extends \common\models\Admin implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery 返回门店信息
      */
-    public function getVenue()
+    public function getStadiums()
     {
-        return $this->hasOne(Venue::className(), ['id' => 'venue_id']);
+        return $this->hasOne(Stadiums::className(), ['id' => 'stadiums_id']);
     }
 
 

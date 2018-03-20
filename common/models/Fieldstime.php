@@ -10,7 +10,7 @@ use Yii;
  *
  * @property int $id id
  * @property int $type 类型，1普通时间段，2VPI时间段
- * @property int $venue_id 场馆
+ * @property int $stadiums_id 场馆
  * @property int $fields_id 场地
  * @property int $order_id 订单号
  * @property int $paystate 支付状态
@@ -38,8 +38,8 @@ class Fieldstime extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['type', 'venue_id', 'fields_id', 'order_id', 'paystate', 'state'], 'integer'],
-            [['venue_id', 'fields_id'], 'required'],
+            [['type', 'stadiums_id', 'fields_id', 'order_id', 'paystate', 'state'], 'integer'],
+            [['stadiums_id', 'fields_id'], 'required'],
             [['pay_time', 'begin_time', 'end_time', 'created_time', 'updated_time'], 'safe'],
             [['money'], 'number'],
         ];
@@ -53,7 +53,7 @@ class Fieldstime extends BaseActiveRecord
         return [
             'id' => 'id',
             'type' => '类型，1普通时间段，2VPI时间段',
-            'venue_id' => '场馆',
+            'stadiums_id' => '场馆',
             'fields_id' => '场地',
             'order_id' => '订单号',
             'paystate' => '支付状态',

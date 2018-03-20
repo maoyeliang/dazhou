@@ -4,17 +4,17 @@ namespace backend\controllers;
 
 use common\components\Upload;
 use Yii;
-use common\models\Venue;
-use common\models\VenueSearch;
+use common\models\Stadiums;
+use common\models\StadiumsSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use yii\helpers\Json;
 
 /**
- * VenueController implements the CRUD actions for Venue model.
+ * stadiumsController implements the CRUD actions for Stadiums model.
  */
-class VenueController extends BaseController
+class StadiumsController extends BaseController
 {
 
     /*
@@ -43,12 +43,12 @@ class VenueController extends BaseController
     }
 
     /**
-     * Lists all Venue models.
+     * Lists all Stadiums models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new VenueSearch();
+        $searchModel = new StadiumsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -58,7 +58,7 @@ class VenueController extends BaseController
     }
 
     /**
-     * Displays a single Venue model.
+     * Displays a single Stadiums model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -71,13 +71,13 @@ class VenueController extends BaseController
     }
 
     /**
-     * Creates a new Venue model.
+     * Creates a new Stadiums model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Venue();
+        $model = new Stadiums();
 
         if ($model->load(Yii::$app->request->post())) {
             //多图入库之前，先转换成字符串
@@ -93,7 +93,7 @@ class VenueController extends BaseController
     }
 
     /**
-     * Updates an existing Venue model.
+     * Updates an existing Stadiums model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -119,7 +119,7 @@ class VenueController extends BaseController
     }
 
     /**
-     * Deletes an existing Venue model.
+     * Deletes an existing stadiums model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -133,15 +133,15 @@ class VenueController extends BaseController
     }
 
     /**
-     * Finds the Venue model based on its primary key value.
+     * Finds the stadiums model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Venue the loaded model
+     * @return Stadiums the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Venue::findOne($id)) !== null) {
+        if (($model = Stadiums::findOne($id)) !== null) {
             return $model;
         }
 

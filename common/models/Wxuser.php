@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "{{%wxuser}}".
@@ -24,7 +25,7 @@ use Yii;
  * @property string $subscribe_time 最后关注时间
  * @property string $time 创建时间
  */
-class Wxuser extends \yii\db\ActiveRecord
+class Wxuser extends \yii\db\ActiveRecord implements IdentityInterface
 {
     /**
      * @inheritdoc
@@ -71,4 +72,24 @@ class Wxuser extends \yii\db\ActiveRecord
             'time' => '创建时间',
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id]);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null){}
+
+    public function getAuthKey(){}
+
+    public function validateAuthKey($authKey){}
+
 }

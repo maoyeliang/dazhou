@@ -102,8 +102,6 @@ class WeixinController extends Controller
                 # code...
                 break;
         }
-
-
     }
 
     public function getWxUser($message)
@@ -115,7 +113,6 @@ class WeixinController extends Controller
     {
         //关注0，取消关注1
         switch ($type) {
-            //用户关注事件
             case '0':
                 if (!$this->wxUser) {
                     $wxuser = new Wxuser();

@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
 
     <?php  echo $form->field($model, 'nickname') ?>
 
-    <?php  echo $form->field($model, 'venue_id') ?>
+    <?php  echo $form->field($model, 'stadiums_id') ?>
 
     <?php  echo $form->field($model, 'headphoto') ?>
 

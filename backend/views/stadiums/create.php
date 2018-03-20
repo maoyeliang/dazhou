@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Venue */
+/* @var $model backend\models\Stadiums */
 
 $this->title = 'Create Venue';
 $this->params['breadcrumbs'][] = ['label' => 'Venues', 'url' => ['index']];

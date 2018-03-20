@@ -18,7 +18,7 @@ class FieldsSearch extends Fields
     public function rules()
     {
         return [
-            [['id', 'venue_id', 'type', 'vip_type', 'material', 'created_time', 'update_time'], 'integer'],
+            [['id', 'stadiums_id', 'type', 'vip_type', 'material', 'created_time', 'update_time'], 'integer'],
         ];
     }
 
@@ -60,7 +60,7 @@ class FieldsSearch extends Fields
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'venue_id' => $this->venue_id,
+            'stadiums_id' => $this->stadiums_id,
             'type' => $this->type,
             'vip_type' => $this->vip_type,
             'material' => $this->material,

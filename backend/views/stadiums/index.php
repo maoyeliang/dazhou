@@ -5,7 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\VenueSearch */
+/* @var $searchModel backend\models\StadiumsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $form yii\widgets\ActiveForm */
 

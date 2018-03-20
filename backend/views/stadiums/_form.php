@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Venue */
+/* @var $model backend\models\Stadiums */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>

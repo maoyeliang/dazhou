@@ -43,7 +43,7 @@
                     ],
                     ['label' => '订单中心', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => '财务中心', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => '场馆管理（admin）', 'icon' => 'file-code-o', 'url' => ['/venue']],
+                    ['label' => '场馆管理（admin）', 'icon' => 'file-code-o', 'url' => ['/stadiums']],
                     ['label' => '用户管理（admin）', 'icon' => 'file-code-o', 'url' => ['/admin']],
                     ['label' => '订单中心（admin）', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => '会员中心（admin）', 'icon' => 'file-code-o', 'url' => ['/gii']],

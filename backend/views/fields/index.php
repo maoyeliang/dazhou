@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'venue_id',
+            'stadiums_id',
             'type',
             'vip_type',
             'material',

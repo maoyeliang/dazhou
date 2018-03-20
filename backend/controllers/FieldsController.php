@@ -46,7 +46,7 @@ class FieldsController extends BaseController
     {
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Fields::find()->where(['venue_id'=>Yii::$app->user->identity->venue_id]),
+            'query' => Fields::find()->where(['stadiums_id'=>Yii::$app->user->identity->stadiums_id]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -76,7 +76,7 @@ class FieldsController extends BaseController
         $model = new Fields();
 
         if ($model->load(Yii::$app->request->post())){
-            $model->venue_id = Yii::$app->user->identity->venue_id;
+            $model->stadiums_id = Yii::$app->user->identity->stadiums_id;
 
             if($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -134,7 +134,7 @@ class FieldsController extends BaseController
             $datetime = strtotime($datetime);
         }
 
-        $fields = Fields::findAll(['venue_id'=>Yii::$app->user->identity->venue_id]);
+        $fields = Fields::findAll(['stadiums_id'=>Yii::$app->user->identity->stadiums_id]);
 
         foreach ($fields as $field){
             for($i = 6; $i < 23; $i++){
@@ -173,7 +173,7 @@ class FieldsController extends BaseController
                     foreach ($value as $fieldinfo){
                         $model = new Fieldstime();
                         $model->type = 0;
-                        $model->venue_id = Yii::$app->user->identity->venue_id;
+                        $model->stadiums_id = Yii::$app->user->identity->stadiums_id;
                         $model->fields_id = $key;
                         $model->money = $money;
                         $model->state = 1;

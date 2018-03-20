@@ -17,7 +17,7 @@ use yii\db\Expression;
  * @property string $password_reset_token 重置密码令牌
  * @property string $email 邮箱
  * @property string $nickname 姓名
- * @property int $venue_id 场馆
+ * @property int $stadiums_id 场馆
  * @property string $headphoto 头像
  * @property string $phone 手机号
  * @property int $status 状态：0未激活，1已激活，2已锁定，3已停用
@@ -64,7 +64,7 @@ class Admin extends BaseActiveRecord
             //  ['status', 'default', 'value' => self::STATUS_ACTIVE],
             //   ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['username', 'password1', 'password2', 'email', 'nickname', 'phone',], 'required',],
-            [['venue_id', 'phone', 'status',  ], 'integer'],
+            [['stadiums_id', 'phone', 'status',  ], 'integer'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email', 'nickname', 'headphoto'], 'string', 'max' => 255],
             [['created_time', 'updated_time'], 'safe'],
@@ -85,7 +85,7 @@ class Admin extends BaseActiveRecord
             'password_reset_token' => '重置密码令牌',
             'email' => '邮箱',
             'nickname' => '姓名',
-            'venue_id' => '场馆',
+            'stadiums_id' => '场馆',
             'headphoto' => '头像',
             'phone' => '手机号',
             'status' => '状态',
@@ -98,9 +98,9 @@ class Admin extends BaseActiveRecord
     /**
      * @return \yii\db\ActiveQuery 返回门店信息
      */
-    public function getVenue()
+    public function getStadiums()
     {
-        return $this->hasOne(Venue::className(), ['id' => 'venue_id']);
+        return $this->hasOne(Stadiums::className(), ['id' => 'stadiums_id']);
     }
 
 }

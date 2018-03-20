@@ -26,14 +26,14 @@ use Yii;
  *
  * @property User[] $users
  */
-class Venue extends \yii\db\ActiveRecord
+class Stadiums extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%venue}}';
+        return '{{%stadiums}}';
     }
 
     /**
@@ -78,6 +78,6 @@ class Venue extends \yii\db\ActiveRecord
      */
     public function getUsers()
     {
-        return $this->hasMany(User::className(), ['venue_id' => 'id']);
+        return $this->hasMany(User::className(), ['stadiums_id' => 'id']);
     }
 }

@@ -31,8 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'nickname')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'venue_id')->dropDownList(
-            \common\models\Venue::find()
+        <?= $form->field($model, 'stadiums_id')->dropDownList(
+            \common\models\Stadiums::find()
                 ->select(['name','id'])
                 ->indexBy('id')
                 ->column(),

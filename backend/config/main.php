@@ -69,7 +69,7 @@ return [
             'gii/*',
             'debug/*',
             'admins/*',
-            'venue/*',
+            'stadiums/*',
             'fields/*',
         ]
     ],

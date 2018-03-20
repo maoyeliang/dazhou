@@ -11,14 +11,14 @@ use yii\db\Expression;
  * This is the model class for table "{{%fields}}".
  *
  * @property int $id
- * @property int $venue_id 场馆
+ * @property int $stadiums_id 场馆
  * @property int $type 场地类型，0未设置，1羽毛球,2篮球
  * @property int $vip_type 0普通，1vip场
  * @property int $material 场地材质
  * @property int $created_time 创建时间
  * @property int $updated_time 更新时间
  *
- * @property Venue $id0
+ * @property Stadiums $id0
  */
 class Fields extends \yii\db\ActiveRecord
 {
@@ -39,7 +39,7 @@ class Fields extends \yii\db\ActiveRecord
             [['venue_id', 'type', 'vip_type'], 'required'],
             [['venue_id', 'type', 'vip_type', 'material', ], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Venue::className(), 'targetAttribute' => ['id' => 'id']],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Stadiums::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
     /**
@@ -79,6 +79,6 @@ class Fields extends \yii\db\ActiveRecord
      */
     public function getId0()
     {
-        return $this->hasOne(Venue::className(), ['id' => 'venue_id']);
+        return $this->hasOne(Stadiums::className(), ['id' => 'stadiums_id']);
     }
 }

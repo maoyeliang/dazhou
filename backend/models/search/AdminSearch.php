@@ -18,7 +18,7 @@ class AdminSearch extends \common\models\Admin
     public function rules()
     {
         return [
-            [['id', 'venue_id', 'phone', 'status', 'last_time', 'created_time', 'updated_time'], 'integer'],
+            [['id', 'stadiums_id', 'phone', 'status', 'last_time', 'created_time', 'updated_time'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'nickname', 'headphoto'], 'safe'],
         ];
     }
@@ -63,7 +63,7 @@ class AdminSearch extends \common\models\Admin
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'venue_id' => $this->venue_id,
+            'stadiums_id' => $this->stadiums_id,
             'phone' => $this->phone,
             'status' => $this->status,
             'last_time' => $this->last_time,

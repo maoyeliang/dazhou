@@ -54,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'phone',
             'email:email',
             [
-                    'attribute' => 'venue_id',
-                    'value' => 'venue.name',
+                    'attribute' => 'stadiums_id',
+                    'value' => 'stadiums.name',
             ],
             'headphoto',
             'status',

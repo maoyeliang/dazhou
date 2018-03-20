@@ -14,7 +14,7 @@ return [
         /**
          * 账号基本信息，请从微信公众平台/开放平台获取
          */
-        'app_id'  => 'gh_c389c2b9246a',         // AppID
+        'app_id'  => 'wxf003cf86fc93e482',         // AppID
         'secret'  => '264e8a59b754217d94b11e71c5135a30',     // AppSecret
         'token'   => 'your-token',          // Token
         'aes_key' => 'hYnDShbKMtzLIhPI5uv1inH1MKQFAADqT7VH6y5v562',                    // EncodingAESKey，安全模式与兼容模式下请一定要填写！！！
@@ -42,7 +42,7 @@ return [
          */
         'oauth' => [
             'scopes'   => ['snsapi_userinfo'],
-            'callback' => '/examples/oauth_callback.php',
+            'callback' => 'frontend/web/index.php?r=login/wxlogin',
         ],
 
         /**

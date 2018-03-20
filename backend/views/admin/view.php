@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'password_reset_token',
             'email:email',
             'nickname',
-            'venue_id',
+            'stadiums_id',
             'headphoto',
               ['attribute'=>'headphoto',
                 'format' => 'raw',
